@@ -1,0 +1,33 @@
+#!/sbin/sh
+# Author: anrui2032 (anrui2032@gmail.com)
+
+OUTFD=/proc/self/fd/$2;
+ZIPFILE="$3";
+CACHE=/tmp/WLAN-MAC-FIX
+ui_print() {
+  until [ ! "$1" ]; do
+    echo -e "ui_print $1\nui_print" > $OUTFD;
+    shift;
+  done;
+}
+
+ui_print " "
+ui_print "***********************************************"
+ui_print "    OPPO R7SM WLAN MAC FIX"
+ui_print "    Flashable zip by @xzr467706992"
+ui_print "    Author: anrui2032"
+ui_print "***********************************************"
+ui_print " "
+ui_print "-Extracting Files..."
+mkdir $CACHE
+cd $CACHE
+unzip -o "$ZIPFILE"
+ui_print " "
+ui_print "-Applying patch..."
+cp -f $CACHE/data/opponvitems/4678 /data/opponvitems/4678
+chmod 666 /data/opponvitems/4678
+chown 1001:1001 /data/opponvitems/4678
+chcon u:object_r:nv_data_file:s0 /data/opponvitems/4678
+ui_print " "
+rm -rf $CACHE
+ui_print "-Done..."
